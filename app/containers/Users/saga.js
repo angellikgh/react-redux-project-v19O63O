@@ -7,8 +7,6 @@ import { makeSelectUsers } from './selectors';
 import { API_URL } from '../../utils/config';
 
 export function* getUsersSaga() {
-  // Select username from store
-  const username = yield select(makeSelectUsers());
   const requestURL = `${API_URL}/users`;
 
   try {
@@ -23,7 +21,6 @@ export function* getUsersSaga() {
 /**
  * Root saga manages watcher lifecycle
  */
-export default function* githubData() {
+export default function* usersData() {
   yield takeLatest(GET_USERS, getUsersSaga);
-  // yield takeLatest(GET_USER, getUser)
 }

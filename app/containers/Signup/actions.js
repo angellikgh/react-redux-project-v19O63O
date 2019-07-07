@@ -1,23 +1,22 @@
-import { GET_USERS, GET_USERS_ERROR } from './constants';
+import { SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILED } from './constants';
 
-export function getUsers(users) {
-  console.log('[Action] > 1', users);
+export function doSignup(user) {
   return {
-    type: GET_USERS,
-    payload: users,
+    type: SIGNUP,
+    payload: user,
   };
 }
 
-/**
- * Dispatched when loading the user data fails
- *
- * @param  {object} error The error
- *
- * @return {object}       An action object with a type of GET_USERS_ERROR passing the error
- */
-export function getUsersError(error) {
+export function signupSuccess(user) {
   return {
-    type: GET_USERS_ERROR,
+    type: SIGNUP_SUCCESS,
+    payload: user,
+  };
+}
+
+export function signupError(error) {
+  return {
+    type: SIGNUP_FAILED,
     error,
   };
 }

@@ -1,18 +1,30 @@
 import produce from 'immer';
-import { GET_USERS } from './constants';
+import { SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILED } from './constants';
 
 export const initialState = {
-  user: '',
-  users: [{ id: 1, email: 'local@host.com' }],
+  user: null,
+  error: null,
 };
 
-const userReducer = (state = initialState, action) =>
+const signupReducer = (state = initialState, action) => 
   produce(state, draft => {
     switch (action.type) {
-      case GET_USERS:
-        draft.users = action.payload;
+      case SIGNUP:
+        draft.user = null;
+        return {
+          ...state,
+          user: false
+        }
+      case SIGNUP_SUCCESS:
+        draft.user = action.payload
+        return {
+          ...state,
+          user: false
+        }
+      case SIGNUP_FAILED:
+        draft.error = action.payload
         break;
     }
   });
 
-export default userReducer;
+export default signupReducer;

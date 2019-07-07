@@ -1,29 +1,25 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
-import { GET_USERS } from './constants';
-import { getUsers, getUsersError } from './actions';
-import { makeSelectUsers } from './selectors';
+import { SIGNUP } from './constants';
+import { signupSuccess, signupError } from './actions';
 
 import { API_URL } from '../../utils/config';
 
-export function* getUsersSaga() {
-  // Select username from store
-  const username = yield select(makeSelectUsers());
-  const requestURL = `${API_URL}/users`;
+export function* signup() {
 
+  const requestURL = `${API_URL}/register`;
+  
   try {
-    // Call our request helper (see 'utils/request')
-    const repos = yield call(request, requestURL);
-    yield put(getUsers(repos, username));
+    const userData = yield call(request, requestURL);
+    yield put(signupSuccess(userData));
   } catch (err) {
-    yield put(getUsersError(err));
+    yield put(signupError(err));
   }
 }
 
 /**
  * Root saga manages watcher lifecycle
  */
-export default function* githubData() {
-  yield takeLatest(GET_USERS, getUsersSaga);
-  // yield takeLatest(GET_USER, getUser)
+export default function* signupSaga() {
+  yield takeLatest(SIGNUP, signup);
 }

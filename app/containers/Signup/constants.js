@@ -1,2 +1,3 @@
-export const GET_USERS = 'GET_USERS';
-export const GET_USERS_ERROR = 'GET_USERS';
+export const SIGNUP         = 'SIGNUP';
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const SIGNUP_FAILED  = 'SIGNUP_FAILED';

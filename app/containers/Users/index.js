@@ -26,7 +26,7 @@ export function Users({
   getUsers,
   loading,
   error,
-}) {
+}) { console.log(getUsers)
   const [sort, setSort] = useState({ field: null, isDesc: false });
   const [sortedUsers, sortUsers] = useState([])
   useInjectReducer({ key, reducer });
