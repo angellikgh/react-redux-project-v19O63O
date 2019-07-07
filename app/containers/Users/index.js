@@ -1,82 +1,9 @@
-// import React, { Component, useEffect, memo } from 'react';
-// import { connect } from 'react-redux';
-// import { compose } from 'redux';
-// import { Row, Table } from 'reactstrap';
-// import { createStructuredSelector } from 'reselect';
-
-// import { makeSelectUsers } from './selectors';
-// import { getUsers } from './actions';
-
-// class Users extends Component {
-//   constructor(props) {
-//     super(props);
-//   }
-
-//   componentWillMount() {
-//     console.log('[Users] props:', this.props);
-//     this.props.getUsers();
-//   }
-
-//   render() {
-//     const { users } = this.props;
-//     console.log('[User] user:', users)
-//     return (
-//       <Row>
-//         <Table>
-//           <thead>
-//             <tr>
-//               <th>No</th>
-//               <th>Email</th>
-//               <th>Created Date</th>
-//               <th />
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {
-//               users && users.map((user, index) => (
-//                 <tr key={index}>
-//                   <td>{ index }</td>
-//                   <td>{ user.id }</td>
-//                   <td>{ user.email }</td>
-//                 </tr>
-//               ))
-//             }
-//           </tbody>
-//         </Table>
-//       </Row>
-//     );
-//   }
-// }
-
-// const mapStateToProps = createStructuredSelector({
-//   users: makeSelectUsers(),
-// });
-
-// export function mapDispatchToProps(dispatch) {
-//   return {
-//     getUsers,
-//   };
-// }
-
-// const withConnect = connect(
-//   mapStateToProps,
-//   mapDispatchToProps,
-// );
-
-// export default compose(
-//   withConnect,
-//   memo,
-// )(Users);
-
-
 import React, { useEffect, memo, useState } from 'react';
-import axios from 'axios'
 import _ from 'lodash'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSortUp, faSortDown } from '@fortawesome/fontawesome-free-solid'
 import { datetimeFormat } from '../../helper/datetimeHelper'
-
 
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -95,16 +22,24 @@ import saga from './saga';
 const key = 'home';
 
 export function Users({
-  // users,
-  // getUsers,
+  users,
+  getUsers,
   loading,
   error,
 }) {
+  const [sort, setSort] = useState({ field: null, isDesc: false });
+  const [sortedUsers, sortUsers] = useState([])
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
-  
-  const [users, setUser] = useState([]);
-  const [sort, setSort] = useState({ field: null, isDesc: false });
+
+  useEffect(() => {
+    console.log("Call getUsers")
+    getUsers()
+  }, []);
+
+  useEffect(() => {
+    sortUsers(users)
+  }, [users]);
 
   function handleSort(field) {
     let sortedUsers = []
@@ -118,7 +53,7 @@ export function Users({
       isDesc = true
     }
     setSort({ field, isDesc: isDesc })
-    setUser(sortedUsers)
+    sortUsers(sortedUsers)
   }
 
   function displaySort( isDesc ) {
@@ -128,21 +63,6 @@ export function Users({
         : <FontAwesomeIcon icon={faSortDown} />
     )
   }
-
-  useEffect(() => {
-      async function getUsers() {
-
-        const result = await axios(
-          'http://localhost:8000/users',
-        );
-
-        setUser(result.data);
-
-      }
-
-      getUsers()
-
-    }, []);
 
   return (
     <article>
@@ -180,18 +100,18 @@ export function Users({
             </thead>
             <tbody>
               {
-                  users && users.map((user, index) => (
-                    <tr key={index}>
-                      <td>{ index + 1 }</td>
-                      <td>{ user.email }</td>
-                      <td>{ datetimeFormat( user.created_at ) }</td>
-                      <td>
-                        <Button color="danger">
-                          <FontAwesomeIcon icon="trash" />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))
+                sortedUsers && sortedUsers.map((user, index) => (
+                  <tr key={user.id}>
+                    <td>{ index + 1 }</td>
+                    <td>{ user.email }</td>
+                    <td>{ datetimeFormat( user.created_at ) }</td>
+                    <td>
+                      <Button color="danger">
+                        <FontAwesomeIcon icon="trash" />
+                      </Button>
+                    </td>
+                  </tr>
+                ))
               }
             </tbody>
           </Table>
@@ -207,7 +127,7 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
-    getUsers: evt => dispatch(getUsers()),
+    getUsers: () => dispatch(getUsers()),
   };
 }
 

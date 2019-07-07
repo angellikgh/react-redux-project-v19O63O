@@ -16,7 +16,10 @@ import Footer from 'components/Footer';
 import { Switch, Route } from 'react-router-dom';
 
 import UsersPage from 'containers/Users/Loadable';
+import LoginPage from 'containers/Login/Loadable';
+import SignupPage from 'containers/Signup/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+
 import GlobalStyle from '../../global-styles';
 
 const AppWrapper = styled.div`
@@ -31,7 +34,7 @@ const AppWrapper = styled.div`
 export default class App extends React.Component {
   render() {
     return (
-      <AppWrapper>
+      <AppWrapper>  
         <Helmet
           titleTemplate="%s - React.js Boilerplate"
           defaultTitle="React.js Boilerplate"
@@ -44,6 +47,8 @@ export default class App extends React.Component {
         <Header />
         <Switch>
           <Route exact path="/" component={UsersPage} />
+          <Route path="/login" component={LoginPage} />
+          <Route path="/signup" component={SignupPage} />
           <Route path="" component={NotFoundPage} />
         </Switch>
         <Footer />
