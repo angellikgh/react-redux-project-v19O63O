@@ -5,21 +5,25 @@ import { signupSuccess, signupError } from './actions';
 
 import { API_URL } from '../../utils/config';
 
-export function* signup() {
+export function* signup(action) {
 
-  const requestURL = `${API_URL}/register`;
-  
+  const requestURL = `${API_URL}/register`
+        , method = 'POST'
+        , body = JSON.stringify({ ...action.payload })
   try {
-    const userData = yield call(request, requestURL);
+    const userData = yield call(request, requestURL, {
+      method,
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body,
+    });
     yield put(signupSuccess(userData));
   } catch (err) {
     yield put(signupError(err));
   }
 }
 
-/**
- * Root saga manages watcher lifecycle
- */
 export default function* signupSaga() {
   yield takeLatest(SIGNUP, signup);
 }

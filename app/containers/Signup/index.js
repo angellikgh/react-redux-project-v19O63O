@@ -110,7 +110,7 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
-    doSignup: () => dispatch(doSignup()),
+    doSignup: (user) => dispatch(doSignup(user)),
   };
 }
 
