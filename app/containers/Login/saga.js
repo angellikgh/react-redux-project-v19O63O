@@ -1,29 +1,33 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
-import { GET_USERS } from './constants';
-import { getUsers, getUsersError } from './actions';
-import { makeSelectUsers } from './selectors';
+import { LOGIN } from '../App/constants';
+import { loginSuccess, loginError } from '../App/actions';
 
 import { API_URL } from '../../utils/config';
 
-export function* getUsersSaga() {
-  // Select username from store
-  const username = yield select(makeSelectUsers());
-  const requestURL = `${API_URL}/users`;
+export function* loginSaga(action) {
+
+  const requestURL = `${API_URL}/login`
+        , method = 'POST'
+        , body = JSON.stringify({ ...action.payload })
 
   try {
-    // Call our request helper (see 'utils/request')
-    const repos = yield call(request, requestURL);
-    yield put(getUsers(repos, username));
+    const res = yield call(request, requestURL, {
+      method,
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body,
+    });
+    yield put(loginSuccess(res));
   } catch (err) {
-    yield put(getUsersError(err));
+    yield put(loginError(err));
   }
 }
 
 /**
  * Root saga manages watcher lifecycle
  */
-export default function* githubData() {
-  yield takeLatest(GET_USERS, getUsersSaga);
-  // yield takeLatest(GET_USER, getUser)
+export default function* login() {
+  yield takeLatest(LOGIN, loginSaga);
 }

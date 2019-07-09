@@ -9,6 +9,7 @@ import history from 'utils/history';
 import globalReducer from 'containers/App/reducer';
 import users from 'containers/Users/reducer';
 import signup from 'containers/Signup/reducer';
+import app from 'containers/App/reducer';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 
 /**
@@ -19,6 +20,7 @@ export default function createReducer(injectedReducers = {}) {
     global: globalReducer,
     users,
     signup,
+    app,
     language: languageProviderReducer,
     router: connectRouter(history),
     ...injectedReducers,

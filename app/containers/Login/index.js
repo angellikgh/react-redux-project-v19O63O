@@ -1,93 +1,121 @@
-import React, { useEffect, memo, useState, useReducer } from 'react';
-import _ from 'lodash'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSortUp, faSortDown } from '@fortawesome/fontawesome-free-solid'
+import React, { 
+  memo, 
+  useState, 
+} from 'react';
 
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { Link } from "react-router-dom"
-import { Row, Col, Button, Form, FormGroup, Label, Input, CustomInput } from 'reactstrap';
+import { 
+  Row, 
+  Col, 
+  Button, 
+  Form, 
+  Input,
+  Label,
+  FormGroup,
+  CustomInput
+} from 'reactstrap';
+
+import { doLogin } from '../App/actions';
 
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
 
-import { getUsers } from './actions';
-import { makeSelectUsers } from './selectors';
-import reducer from './reducer';
-import saga from './saga';
+import reducer from '../App/reducer'
+import saga from './saga'
 
-const key = 'home';
+const key = 'login';
 
-export function Login({
-  users,
-  getUsers,
-  loading,
-  error,
-}) {
-  const [sort, setSort] = useState({ field: null, isDesc: false });
+import { NotificationManager } from 'react-notifications';
 
+const Login = ({ doLogin }) => {
+  
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
 
-  useEffect(() => {
-      getUsers();
-  }, [getUsers]);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  function handleSubmit(field) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    doLogin({ email, password });
+  };
     
-  }
-
   return (
     <main>
       <Helmet>
-        <title>Login in</title>
+        <title>Log in</title>
         <meta
           name="description"
-          content="A React.js Boilerplate application | Sign up"
+          content="A React.js Boilerplate application homepage"
         />
       </Helmet>
-      
       <Row>
-        <Col sm="12" md={{ size: 6, offset: 3 }}>
-          <h1>Login</h1>
-          <Form>
+        <Col>
+          <div className="login-panel">
+          <span>Login</span>
+          <Form onSubmit={handleSubmit}>
             <FormGroup>
-              <Label for="exampleEmail">Email</Label>
-              <Input type="email" name="email" id="exampleEmail" placeholder="Email" />
+              <Input 
+                type="email" 
+                name="email" 
+                id="exampleEmail" 
+                placeholder="Email" 
+                value={email}
+                onChange={event => { setEmail(event.target.value) }}/>
             </FormGroup>
             <FormGroup>
-              <Label for="examplePassword">Password</Label>
-              <Input type="password" name="password" id="examplePassword" placeholder="Password" />
+              <Input 
+                type="password" 
+                name="password" 
+                id="examplePassword" 
+                placeholder="Password"
+                value={password}
+                onChange={event => { setPassword(event.target.value) }} />
             </FormGroup>
-            <FormGroup>
-              <CustomInput type="checkbox" id="exampleCustomInline" label="Check me out" inline />
-            </FormGroup>
-            <FormGroup>
-              <Button 
-                click={() => {}} >
-                Login
-              </Button>
-            </FormGroup>
-            <Link to="/signup">
-              Not signup?
-            </Link>
+            <FormGroup className="form-footer" row>
+              <Col sm={{ size: 12 }}>
+                <Button
+                  className="btn btn-primary"
+                  defaultValue={`${isSubmitting ? 'Doing login...' : 'Login'}`}
+                  disabled={isSubmitting}>
+                  Login
+                </Button>
+              </Col>
+              <Col sm={{ size: 12 }}>
+                <Link
+                  className="btn"
+                  to="/signup">
+                  Forget Password?
+                </Link>|
+                <Link
+                  className="btn"
+                  to="/signup">
+                  Sign up
+                </Link>
+              </Col>
+            </FormGroup>            
           </Form>
+          </div>
         </Col>
       </Row>
     </main>
   );
-}
+};
 
 const mapStateToProps = createStructuredSelector({
-  users: makeSelectUsers(),
+
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
-    getUsers: getUsers
+    doLogin: (user) => dispatch(doLogin(user)),
   };
 }
 

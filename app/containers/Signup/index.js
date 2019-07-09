@@ -34,7 +34,6 @@ const Signup = ({ doSignup }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = event => {
-    event.preventDefault();
     setIsSubmitting(true);
     doSignup({ email, password });
   };
@@ -50,54 +49,57 @@ const Signup = ({ doSignup }) => {
       </Helmet>
       <Row>
         <Col>
-          <h1>Signup</h1>
-          <Form onSubmit={handleSubmit}>
-            <FormGroup>
-              <Label for="exampleEmail">Email</Label>
-              <Input 
-                type="email" 
-                name="email" 
-                id="exampleEmail" 
-                placeholder="Email" 
-                value={email}
-                onChange={event => { setEmail(event.target.value) }}/>
-            </FormGroup>
-            <FormGroup>
-              <Label for="examplePassword">Password</Label>
-              <Input 
-                type="password" 
-                name="password" 
-                id="examplePassword" 
-                placeholder="Password"
-                value={password}
-                onChange={event => { setPassword(event.target.value) }} />
-            </FormGroup>
-            <FormGroup required>
-              <Label for="examplePassword">Confirm Password</Label>
-              <Input
-                type="password" 
-                name="confirm_password" 
-                id="confirm_password" 
-                placeholder="Password" 
-                />
-            </FormGroup>
-            <FormGroup>
-              <CustomInput type="checkbox" id="exampleCustomInline" label="Check me out" inline />
-            </FormGroup>
-            <FormGroup>
-              <Button
-                className="btn btn-primary"
-                defaultValue={`${isSubmitting ? 'Doing register...' : 'Singup'}`}
-                disabled={isSubmitting}>
-                Signup
-              </Button>
-              <Link
-                className="btn"
-                to="/login">
-                Back
-              </Link>
-            </FormGroup>
-          </Form>
+          <div className="signup-panel">
+            <span>Signup</span>
+              <Form onSubmit={handleSubmit}>
+              <FormGroup>
+                  <Input 
+                    type="email" 
+                    name="email" 
+                    id="exampleEmail" 
+                    placeholder="Email" 
+                    value={email}
+                    onChange={event => { setEmail(event.target.value) }}/>
+                </FormGroup>
+                <FormGroup>
+                <Input 
+                  type="password" 
+                  name="password" 
+                  id="examplePassword" 
+                  placeholder="Password"
+                  value={password}
+                  onChange={event => { setPassword(event.target.value) }} />
+              </FormGroup>
+              <FormGroup required>
+                <Input
+                  type="password" 
+                  name="confirm_password" 
+                  id="confirm_password" 
+                  placeholder="Confirm Password" 
+                  />
+              </FormGroup>
+              <FormGroup>
+                <CustomInput type="checkbox" id="exampleCustomInline" label="I agree with Terms & Conditions" inline />
+              </FormGroup>
+              <FormGroup className="form-footer">
+                <Col sm={{ size: 12 }}>
+                  <Button
+                    className="btn btn-primary"
+                    defaultValue={`${isSubmitting ? 'Doing register...' : 'Singup'}`}
+                    disabled={isSubmitting}>
+                    Signup
+                  </Button>
+                </Col>
+                <Col sm={{ size: 12 }}>
+                  <Link
+                    className="btn"
+                    to="/login">
+                    Back
+                  </Link>
+                </Col>
+              </FormGroup>
+            </Form>
+          </div>
         </Col>
       </Row>
     </main>
