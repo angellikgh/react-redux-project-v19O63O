@@ -30,6 +30,7 @@ import saga from './saga'
 const key = 'login';
 
 import { NotificationManager } from 'react-notifications';
+import { makeSelectLoading, makeSelectError } from '../App/selectors';
 
 const Login = ({ doLogin }) => {
   
@@ -110,7 +111,8 @@ const Login = ({ doLogin }) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-
+  loading: makeSelectLoading,
+  error: makeSelectError,
 });
 
 export function mapDispatchToProps(dispatch) {
