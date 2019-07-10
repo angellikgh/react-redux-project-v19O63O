@@ -93,7 +93,7 @@ const Signup = ({ doSignup }) => {
                 <Col sm={{ size: 12 }}>
                   <Link
                     className="btn"
-                    to="/login">
+                    to="/">
                     Back
                   </Link>
                 </Col>

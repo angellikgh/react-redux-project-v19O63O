@@ -46,8 +46,8 @@ export default class App extends React.Component {
         </Helmet>
         <Header />
         <Switch>
-          <Route exact path="/" component={UsersPage} />
-          <Route path="/login" component={LoginPage} />
+          <Route exact path="/" component={LoginPage} />
+          <Route path="/users" component={UsersPage} />
           <Route path="/signup" component={SignupPage} />
           <Route path="" component={NotFoundPage} />
         </Switch>
