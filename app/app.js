@@ -18,6 +18,7 @@ import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'react-notifications/lib/notifications.css';
 
 // Import root app
 import App from 'containers/App';

@@ -1,8 +1,8 @@
 import React, { 
   memo, 
-  useState, 
+  useState,
+  useEffect,
 } from 'react';
-
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -29,10 +29,16 @@ import saga from './saga'
 
 const key = 'login';
 
-import { NotificationManager } from 'react-notifications';
-import { makeSelectLoading, makeSelectError } from '../App/selectors';
+import { 
+  NotificationContainer, 
+  NotificationManager,
+} from 'react-notifications';
+import { 
+  makeSelectLoading, 
+  makeSelectError,
+} from '../App/selectors';
 
-const Login = ({ doLogin }) => {
+const Login = ({ doLogin, loading, error }) => {
   
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
@@ -40,16 +46,18 @@ const Login = ({ doLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleSubmit = event => {
     event.preventDefault();
-    setIsSubmitting(true);
     doLogin({ email, password });
   };
     
+  useEffect(() => {
+    if( error ) NotificationManager.error('Incorrect User email or password!')
+  }, [error])
+
   return (
     <main>
+      <NotificationContainer/>
       <Helmet>
         <title>Log in</title>
         <meta
@@ -57,10 +65,10 @@ const Login = ({ doLogin }) => {
           content="A React.js Boilerplate application homepage"
         />
       </Helmet>
-      <Row>
+      <Row>        
         <Col>
           <div className="login-panel">
-          <span>Login</span>
+          <span>Login</span>          
           <Form onSubmit={handleSubmit}>
             <FormGroup>
               <Input 
@@ -84,8 +92,8 @@ const Login = ({ doLogin }) => {
               <Col sm={{ size: 12 }}>
                 <Button
                   className="btn btn-primary"
-                  defaultValue={`${isSubmitting ? 'Doing login...' : 'Login'}`}
-                  disabled={isSubmitting}>
+                  defaultValue={`${loading ? 'Doing login...' : 'Login'}`}
+                  disabled={loading}>
                   Login
                 </Button>
               </Col>
@@ -111,8 +119,8 @@ const Login = ({ doLogin }) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-  loading: makeSelectLoading,
-  error: makeSelectError,
+  loading: makeSelectLoading(),
+  error: makeSelectError(),
 });
 
 export function mapDispatchToProps(dispatch) {
