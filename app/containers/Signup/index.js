@@ -21,9 +21,10 @@ import saga from './saga'
 
 const key = 'signup';
 
-import { NotificationManager } from 'react-notifications';
+import { NotificationManager, NotificationContainer } from 'react-notifications';
+import { makeSelectError, makeSelectLoading } from '../App/selectors';
 
-const Signup = ({ doSignup }) => {
+const Signup = ({ doSignup, loading, error }) => {
   
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
@@ -31,12 +32,13 @@ const Signup = ({ doSignup }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleSubmit = event => {
-    setIsSubmitting(true);
     doSignup({ email, password });
   };
+
+  useEffect((error) => {
+    if( error ) NotificationManager.error('Failed! Some issue occured.')
+  }, [error])
     
   return (
     <main>
@@ -47,6 +49,7 @@ const Signup = ({ doSignup }) => {
           content="A React.js Boilerplate application homepage"
         />
       </Helmet>
+      <NotificationContainer />
       <Row>
         <Col>
           <div className="signup-panel">
@@ -85,8 +88,8 @@ const Signup = ({ doSignup }) => {
                 <Col sm={{ size: 12 }}>
                   <Button
                     className="btn btn-primary"
-                    defaultValue={`${isSubmitting ? 'Doing register...' : 'Singup'}`}
-                    disabled={isSubmitting}>
+                    defaultValue={`${loading ? 'Doing register...' : 'Singup'}`}
+                    disabled={loading}>
                     Signup
                   </Button>
                 </Col>
@@ -108,6 +111,8 @@ const Signup = ({ doSignup }) => {
 
 const mapStateToProps = createStructuredSelector({
   user: userSelector(),
+  loading: makeSelectLoading(),
+  error: makeSelectError(),
 });
 
 export function mapDispatchToProps(dispatch) {
