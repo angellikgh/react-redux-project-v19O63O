@@ -21,6 +21,7 @@ import SignupPage from 'containers/Signup/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
+import AuthRoute from '../../components/AuthRoute'
 
 const AppWrapper = styled.div`
   max-width: calc(768px + 16px * 2);
@@ -47,8 +48,8 @@ export default class App extends React.Component {
         <Header />
         <Switch>
           <Route exact path="/" component={LoginPage} />
-          <Route path="/users" component={UsersPage} />
           <Route path="/signup" component={SignupPage} />
+          <AuthRoute path="/users" component={UsersPage} />
           <Route path="" component={NotFoundPage} />
         </Switch>
         <Footer />

@@ -30,8 +30,8 @@ const appReducer = (state = initialState, action) =>
         }
         break;
       case LOGIN_SUCCESS:
-        const token = action.payload.token
-        localStorage.setItem('token', token)
+        const token = action.auth_token
+        localStorage.setItem("token", token);
         return {
           ...state,
           loading: false,
