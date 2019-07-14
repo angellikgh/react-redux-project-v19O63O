@@ -7,7 +7,7 @@ export const initialState = {
 };
 
 const signupReducer = (state = initialState, action) => 
-  produce(state, draft => {
+  produce(( state, draft ) => {
     switch (action.type) {
       case SIGNUP:
         draft.user = null;

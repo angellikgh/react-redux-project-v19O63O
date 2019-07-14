@@ -1,5 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
+import { push } from 'connected-react-router';
 import { LOGIN } from '../App/constants';
 import { loginSuccess, loginError } from '../App/actions';
 
@@ -20,8 +21,11 @@ export function* loginSaga(action) {
       body,
     });
     yield put(loginSuccess(res));
+    //yield put(push('/users'))
+    window.location.href = './users'
   } catch (err) {
     yield put(loginError(err));
+    
   }
 }
 

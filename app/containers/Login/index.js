@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { 
   Row, 
   Col, 
@@ -37,6 +37,7 @@ import {
   makeSelectLoading, 
   makeSelectError,
 } from '../App/selectors';
+
 
 const Login = ({ doLogin, loading, error }) => {
   
@@ -68,7 +69,7 @@ const Login = ({ doLogin, loading, error }) => {
       <Row>        
         <Col>
           <div className="login-panel">
-          <span>Login</span>          
+          <div className="title">Login</div>
           <Form onSubmit={handleSubmit}>
             <FormGroup>
               <Input 

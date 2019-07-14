@@ -32,6 +32,7 @@ const appReducer = (state = initialState, action) =>
       case LOGIN_SUCCESS:
         const token = action.auth_token
         localStorage.setItem("token", token);
+        
         return {
           ...state,
           loading: false,

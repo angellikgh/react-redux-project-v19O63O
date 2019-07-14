@@ -34,6 +34,7 @@ const AppWrapper = styled.div`
 
 export default class App extends React.Component {
   render() {
+    let authToken = localStorage.getItem("token") ? true : false;
     return (
       <AppWrapper>  
         <Helmet
@@ -46,12 +47,16 @@ export default class App extends React.Component {
           />
         </Helmet>
         <Header />
-        <Switch>
+        {authToken ? (
+          <Switch>
+            <Route path="/users" component={UsersPage} />
+            <Route path="" component={NotFoundPage} />
+          </Switch>) : (
+          <Switch>
           <Route exact path="/" component={LoginPage} />
           <Route path="/signup" component={SignupPage} />
-          <AuthRoute path="/users" component={UsersPage} />
-          <Route path="" component={NotFoundPage} />
-        </Switch>
+          </Switch>
+        )}
         <Footer />
         <GlobalStyle />
       </AppWrapper>

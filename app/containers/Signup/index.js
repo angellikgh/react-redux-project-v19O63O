@@ -33,6 +33,7 @@ const Signup = ({ doSignup, loading, error }) => {
   const [password, setPassword] = useState('');
 
   const handleSubmit = event => {
+    event.preventDefault()
     doSignup({ email, password });
   };
 

@@ -2,6 +2,7 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
 import { SIGNUP } from './constants';
 import { signupSuccess, signupError } from './actions';
+import { push } from 'connected-react-router';
 
 import { API_URL } from '../../utils/config';
 
@@ -19,6 +20,7 @@ export function* signup(action) {
       body,
     });
     yield put(signupSuccess(userData));
+    yield put(push('/login'))
   } catch (err) {
     yield put(signupError(err));
   }

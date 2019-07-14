@@ -19,6 +19,8 @@ import { makeSelectUsers } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
+import styled from './Board'
+
 const key = 'home';
 
 export function Users({
@@ -74,7 +76,7 @@ export function Users({
         />
       </Helmet>
       <Row>
-        <Col>
+        <Col className="user-list">
           <Table striped>
             <thead>
                 <tr>

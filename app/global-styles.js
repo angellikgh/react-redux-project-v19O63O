@@ -65,7 +65,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .signup-panel span,
-  .login-panel span {
+  .login-panel .title {
     box-shadow: 1px 15px 20px 1px #bebebe;
     background: linear-gradient(90deg,#ab47bc,#7c1fa2);
     border-radius: 4px;
@@ -105,6 +105,10 @@ const GlobalStyle = createGlobalStyle`
   .login-panel .form-footer {
     text-align: center;
     flex-grow: 2;
+  }
+
+  .user-list {
+    
   }
 
   .btn-primary {
