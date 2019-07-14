@@ -1,8 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
-import { push } from 'connected-react-router';
 import { LOGIN } from '../App/constants';
-import { loginSuccess, loginError } from '../App/actions';
+import { loginSuccess, loginError, logout } from '../App/actions';
 
 import { API_URL } from '../../utils/config';
 
@@ -21,12 +20,17 @@ export function* loginSaga(action) {
       body,
     });
     yield put(loginSuccess(res));
-    //yield put(push('/users'))
-    window.location.href = './users'
+    window.location.href = "./users"
   } catch (err) {
     yield put(loginError(err));
     
   }
+}
+
+export function* logoutSaga() {
+  localStorage.removeItem("auth_token");
+  yield put(logout())
+  window.location.href = "./"
 }
 
 /**
@@ -34,4 +38,5 @@ export function* loginSaga(action) {
  */
 export default function* login() {
   yield takeLatest(LOGIN, loginSaga);
+  yield takeLatest(LOGIN, logoutSaga);
 }

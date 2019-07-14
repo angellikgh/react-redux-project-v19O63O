@@ -6,9 +6,12 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import React from 'react';
+import React, { memo } from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -22,6 +25,7 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
 import AuthRoute from '../../components/AuthRoute'
+import { logout } from './actions'
 
 const AppWrapper = styled.div`
   max-width: calc(768px + 16px * 2);
@@ -32,7 +36,15 @@ const AppWrapper = styled.div`
   flex-direction: column;
 `;
 
-export default class App extends React.Component {
+class App extends React.Component {
+  
+  handleLogout = () => {
+    const { logout } = this.props
+    console.log(this.props)
+    logout()  
+    window.locaiton.href = "./"
+  }
+
   render() {
     let authToken = localStorage.getItem("token") ? true : false;
     return (
@@ -46,7 +58,7 @@ export default class App extends React.Component {
             content="A React.js Boilerplate application"
           />
         </Helmet>
-        <Header />
+        <Header logout={this.handleLogout} isLogin={authToken}/>
         {authToken ? (
           <Switch>
             <Route path="/users" component={UsersPage} />
@@ -63,3 +75,30 @@ export default class App extends React.Component {
     );
   }
 }
+
+const mapPropsState = () => {
+
+}
+
+const mapProp = () => {
+
+}
+
+const mapStateToProps = createStructuredSelector({
+});
+
+export function mapDispatchToProps(dispatch) {
+  return {
+    logout: () => dispatch(logout()),
+  };
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(
+  withConnect,
+  memo,
+)(App);

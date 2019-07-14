@@ -1,4 +1,4 @@
-import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILED } from './constants';
+import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT } from './constants';
 
 export function doLogin(user) {
   return {
@@ -18,5 +18,12 @@ export function loginError(error) {
   return {
     type: LOGIN_FAILED,
     error,
+  };
+}
+
+
+export function logout() {
+  return {
+    type: LOGOUT
   };
 }

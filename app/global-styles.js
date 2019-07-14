@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.5;
     background-image: url(./background.png);
     background-position-x: center;
+    background-color: #101830;
   }
 
   body {

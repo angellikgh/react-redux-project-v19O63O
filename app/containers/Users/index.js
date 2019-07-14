@@ -19,7 +19,7 @@ import { makeSelectUsers } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-import styled from './Board'
+import StyledTable from './StyledTable'
 
 const key = 'home';
 
@@ -28,14 +28,13 @@ export function Users({
   getUsers,
   loading,
   error,
-}) { console.log(getUsers)
+}) {
   const [sort, setSort] = useState({ field: null, isDesc: false });
   const [sortedUsers, sortUsers] = useState([])
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
 
   useEffect(() => {
-    console.log("Call getUsers")
     getUsers()
   }, []);
 
@@ -77,46 +76,48 @@ export function Users({
       </Helmet>
       <Row>
         <Col className="user-list">
-          <Table striped>
-            <thead>
-                <tr>
-                  <th>
-                    No
-                  </th>
-                  <th onClick={() => { handleSort('email') }}>
-                    Email
-                    { 
-                      sort.field === "email" 
-                      && displaySort( sort.isDesc )
-                    }                                   
-                  </th>
-                  <th onClick={() => { handleSort('created_at') }}>
-                    Created Date
-                    { 
-                      sort.field === "created_at" 
-                      && displaySort( sort.isDesc )
-                    }
-                  </th>
-                  <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                sortedUsers && sortedUsers.map((user, index) => (
-                  <tr key={user.id}>
-                    <td>{ index + 1 }</td>
-                    <td>{ user.email }</td>
-                    <td>{ datetimeFormat( user.created_at ) }</td>
-                    <td>
-                      <Button color="danger">
-                        <FontAwesomeIcon icon="trash" />
-                      </Button>
-                    </td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </Table>
+          <StyledTable>
+            <Table striped>
+              <thead>
+                  <tr>
+                    <th>
+                      No
+                    </th>
+                    <th onClick={() => { handleSort('email') }}>
+                      Email
+                      { 
+                        sort.field === "email" 
+                        && displaySort( sort.isDesc )
+                      }                                   
+                    </th>
+                    <th onClick={() => { handleSort('created_at') }}>
+                      Created Date
+                      { 
+                        sort.field === "created_at" 
+                        && displaySort( sort.isDesc )
+                      }
+                    </th>
+                    <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  sortedUsers && sortedUsers.map((user, index) => (
+                    <tr key={user.id}>
+                      <td>{ index + 1 }</td>
+                      <td>{ user.email }</td>
+                      <td>{ datetimeFormat( user.created_at ) }</td>
+                      <td>
+                        <Button color="danger">
+                          <FontAwesomeIcon icon="trash" />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </Table>
+          </StyledTable>
         </Col>
       </Row>
     </article>

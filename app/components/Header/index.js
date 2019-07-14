@@ -30,15 +30,19 @@ class Header extends Component {
   }
 
   render() {
+    const { isLogin, logout } = this.props
+
     return (
       <div>
         <Navbar>
           <NavbarBrand href="/">Best Practice!</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
             <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="/" className="navbar-link">Logout</NavLink>
+            { !!isLogin &&
+              <NavItem>              
+                <NavLink href="javascript:;" onClick={logout} className="navbar-link">Logout</NavLink>
               </NavItem>
+            }
             </Nav>
         </Navbar>
       </div>

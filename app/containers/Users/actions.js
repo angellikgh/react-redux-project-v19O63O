@@ -1,8 +1,8 @@
-import { GET_USERS, USERS_ERROR, USERS_LOADED } from './constants';
+import { GET_USERS, USERS_LOADED, USERS_ERROR } from './constants';
 
-export function getUsers() {
+export function getUsers(users) {
   return {
-    type: GET_USERS,
+    type: GET_USERS
   };
 }
 

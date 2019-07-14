@@ -8,7 +8,7 @@
  */
 
 import produce from 'immer';
-import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILED } from './constants';
+import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT } from './constants';
 
 // The initial state of the App
 export const initialState = {
@@ -44,6 +44,10 @@ const appReducer = (state = initialState, action) =>
           loading: false,
           error: action.error,
         }
+      break;
+      case LOGOUT:
+      console.log("Reducer Logout")
+        localStorage.removeItem("token")
       break;
     }
   });
